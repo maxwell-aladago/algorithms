@@ -363,67 +363,68 @@ public class VehicleMovementConvexHull {
             Point farRight = anchors.pop();
             Point f = anchors.pop();
             Point farLeft = anchors.pop();
-            ArrayList<Point> leftHull = new ArrayList<>();
-            ArrayList<Point> rightHull = new ArrayList<>();
-            Point farthestPointLeft = null;
-            Point farthestPointRight = null;
+            if (explicit.size() > 1) {
+                ArrayList<Point> leftHull = new ArrayList<>();
+                ArrayList<Point> rightHull = new ArrayList<>();
+                Point farthestPointLeft = null;
+                Point farthestPointRight = null;
 
-            double farthestLeftDist = 0;
-            double farthestRightDist = 0;
-            double distance;
+                double farthestLeftDist = 0;
+                double farthestRightDist = 0;
+                double distance;
 
-            for (int i = 0; i < explicit.size(); i++) {
-                Point curPoint = explicit.get(i);
+                for (int i = 0; i < explicit.size(); i++) {
+                    Point curPoint = explicit.get(i);
 
-                distance = this.getDistance(farLeft, f, curPoint);
-                //distance has opposite sign for upper hull and lower hull.
-                //distance is negative for points on the 
-                //left of triangle Point1Point2LowerConvex
-                if (!upperHull) {
-                    distance *= -1;
-                }
-
-                if (distance > 0) {
-                    //System.out.println("l");
-
-                    leftHull.add(curPoint);
-                    if (distance > farthestLeftDist) {
-                        farthestLeftDist = distance;
-                        farthestPointLeft = curPoint;
-                    }
-                } else {
-                    distance = this.getDistance(farRight, f, curPoint);
-
+                    distance = this.getDistance(farLeft, f, curPoint);
+                    //distance has opposite sign for upper hull and lower hull.
+                    //distance is negative for points on the 
+                    //left of triangle Point1Point2LowerConvex
                     if (!upperHull) {
                         distance *= -1;
                     }
-                    if (distance < 0) {
-                        rightHull.add(curPoint);
-                        if (distance < farthestRightDist) {
-                            farthestRightDist = distance;
-                            farthestPointRight = curPoint;
+
+                    if (distance > 0) {
+                        //System.out.println("l");
+
+                        leftHull.add(curPoint);
+                        if (distance > farthestLeftDist) {
+                            farthestLeftDist = distance;
+                            farthestPointLeft = curPoint;
+                        }
+                    } else {
+                        distance = this.getDistance(farRight, f, curPoint);
+
+                        if (!upperHull) {
+                            distance *= -1;
+                        }
+                        if (distance < 0) {
+                            rightHull.add(curPoint);
+                            if (distance < farthestRightDist) {
+                                farthestRightDist = distance;
+                                farthestPointRight = curPoint;
+                            }
                         }
                     }
                 }
+
+                if (leftHull.size() > 0) {
+                    this.convexPoints.add(farthestPointLeft);
+                    anchors.add(farLeft);
+                    anchors.add(farthestPointLeft);
+                    anchors.add(f);
+                    sections.add(leftHull);
+                }
+
+                if (rightHull.size() > 0) {
+                    this.convexPoints.add(farthestPointRight);
+                    anchors.add(f);
+                    anchors.add(farthestPointRight);
+                    anchors.add(farRight);
+                    sections.add(rightHull);
+                }
             }
 
-            if (leftHull.size() > 0) {
-                this.convexPoints.add(farthestPointLeft);
-                anchors.add(farLeft);
-                anchors.add(farthestPointLeft);
-                anchors.add(f);
-                sections.add(leftHull);
-            }
-
-            if (rightHull.size() > 0) {
-                this.convexPoints.add(farthestPointRight);
-                anchors.add(f);
-                anchors.add(farthestPointRight);
-                anchors.add(farRight);
-                sections.add(rightHull);
-            }
         }
-
     }
-
 }
