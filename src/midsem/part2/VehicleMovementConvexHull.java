@@ -298,26 +298,27 @@ public class VehicleMovementConvexHull {
             }
         }
 
-        //call the recursive function to construct both the upper hull and lower hull
+        //now construct both the upper hull and lower hull using hull stacks
+        
         if (upperConvex != null) {
             this.convexPoints.add(upperConvex);
-            Stack<ArrayList<Point>> upper = new Stack<>();
-            Stack<Point> anchors = new Stack<>();
-            upper.add(upperHull);
-            anchors.add(leftMostPoint);
-            anchors.add(upperConvex);
-            anchors.add(rightMostPoint);
-            this.markConvexPoints(upper, anchors, true);
+            Stack<ArrayList<Point>> upperH = new Stack<>();
+            Stack<Point> vertices = new Stack<>();
+            upperH.add(upperHull);
+            vertices.add(leftMostPoint);
+            vertices.add(upperConvex);
+            vertices.add(rightMostPoint);
+            this.markConvexPoints(upperH, vertices, true);
         }
         if (lowerConvex != null) {
             this.convexPoints.add(lowerConvex);
-            Stack<ArrayList<Point>> lower = new Stack<>();
-            Stack<Point> anchors = new Stack<>();
-            lower.add(lowerHull);
-            anchors.add(leftMostPoint);
-            anchors.add(lowerConvex);
-            anchors.add(rightMostPoint);
-            this.markConvexPoints(lower, anchors, false);
+            Stack<ArrayList<Point>> lowerH = new Stack<>();
+            Stack<Point> vertices = new Stack<>();
+            lowerH.add(lowerHull); //to be popped third
+            vertices.add(leftMostPoint); //to be popped second
+            vertices.add(lowerConvex); //to be popped last
+            vertices.add(rightMostPoint);
+            this.markConvexPoints(lowerH, vertices, false);
         }
 
     }
@@ -343,7 +344,7 @@ public class VehicleMovementConvexHull {
     }
 
     /**
-     * A recursive function which contructs contructs the both the upper and
+     * A function which contructs contructs the both the upper and
      * lowr convex hulls Pos-condition: A call to this functions changes the
      * composition of the convex hull.
      *
@@ -355,15 +356,15 @@ public class VehicleMovementConvexHull {
      * @param upperHull. True if contrusting the upper hull. False if
      * constructing the lower hull.
      */
-    private void markConvexPoints(Stack<ArrayList<Point>> sections,
-            Stack<Point> anchors, boolean upperHull) {
+    private void markConvexPoints(Stack<ArrayList<Point>> hulls,
+            Stack<Point> vertices, boolean upperHull) {
 
-        while (!sections.empty()) {
-            ArrayList<Point> explicit = sections.pop();
-            Point farRight = anchors.pop();
-            Point f = anchors.pop();
-            Point farLeft = anchors.pop();
-            if (explicit.size() > 1) {
+        while (!hulls.empty()) {
+            ArrayList<Point> hull = hulls.pop();
+            Point farRight = vertices.pop();
+            Point f = vertices.pop();
+            Point farLeft = vertices.pop();
+            if (hull.size() > 1) {
                 ArrayList<Point> leftHull = new ArrayList<>();
                 ArrayList<Point> rightHull = new ArrayList<>();
                 Point farthestPointLeft = null;
@@ -373,8 +374,8 @@ public class VehicleMovementConvexHull {
                 double farthestRightDist = 0;
                 double distance;
 
-                for (int i = 0; i < explicit.size(); i++) {
-                    Point curPoint = explicit.get(i);
+                for (int i = 0; i < hull.size(); i++) {
+                    Point curPoint = hull.get(i);
 
                     distance = this.getDistance(farLeft, f, curPoint);
                     //distance has opposite sign for upper hull and lower hull.
@@ -410,18 +411,18 @@ public class VehicleMovementConvexHull {
 
                 if (leftHull.size() > 0) {
                     this.convexPoints.add(farthestPointLeft);
-                    anchors.add(farLeft);
-                    anchors.add(farthestPointLeft);
-                    anchors.add(f);
-                    sections.add(leftHull);
+                    vertices.add(farLeft);
+                    vertices.add(farthestPointLeft);
+                    vertices.add(f);
+                    hulls.add(leftHull);
                 }
 
                 if (rightHull.size() > 0) {
                     this.convexPoints.add(farthestPointRight);
-                    anchors.add(f);
-                    anchors.add(farthestPointRight);
-                    anchors.add(farRight);
-                    sections.add(rightHull);
+                    vertices.add(f);
+                    vertices.add(farthestPointRight);
+                    vertices.add(farRight);
+                    hulls.add(rightHull);
                 }
             }
 
