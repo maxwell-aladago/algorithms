@@ -1,0 +1,20 @@
+﻿Original Latitude/Longitude Data,,,,Reformatted Latitude/Longitude Data,,,Decimal Points to be used for closest-pairs problem,,
+City,Latitude,Longitude,,Latitude,Longitude,,City,x-coordinate,y-coordinate
+Accra,05°35'N,00°06'W,,5.35,-0.06,,Accra,-0.10,5.58
+Asamankese,05°50'N,00°40'W,,5.5,-0.4,,Asamankese,-0.67,5.83
+Axim,04°51'N,02°15'W,,4.51,-2.15,,Axim,-2.25,4.85
+Bawku,11°03'N,00°19'W,,11.03,-0.19,,Bawku,-0.32,11.05
+Berekum,07°29'N,02°34'W,,7.29,-2.34,,Berekum,-2.57,7.48
+Cape Coast,05°05'N,01°15'W,,5.05,-1.15,,Cape Coast,-1.25,5.08
+Koforidua,06°03'N,00°17'W,,6.03,-0.17,,Koforidua,-0.28,6.05
+Kumasi,06°41'N,01°28'W,,6.41,-1.28,,Kumasi,-1.47,6.68
+Obuasi,06°17'N,01°40'W,,6.17,-1.4,,Obuasi,-1.67,6.28
+Salaga,8°31'N,0°31'W,,8.31,-0.31,,Salaga,-0.52,8.52
+Savelugu,9°38'N,0°54'W,,9.38,-0.54,,Savelugu,-0.90,9.63
+Sekolndi Taoradi,4°58'N,1°45'W,,4.58,-1.45,,Sekolndi Taoradi,-1.75,4.97
+Tamale,9°22'N,0°50'W,,9.22,-0.5,,Tamale,-0.83,9.37
+Tema,5°41'N,0°0'W,,5.41,0,,Tema,0.00,5.68
+Cape Three Points,4°42'N,2°6'W,,4.42,-2.6,,Cape Three Points,-3.00,4.70
+Tumu,10°56'N,1°56'W,,10.56,-1.56,,Tumu,-1.93,10.93
+Volta,5°46'N,0°41'E,,5.46,0.41,,Volta,0.68,5.77
+Wenchi,7°46'N,2°8'W,,7.46,-2.8,,Wenchi,-3.33,7.77
